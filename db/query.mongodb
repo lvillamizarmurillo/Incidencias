@@ -1,1 +1,80 @@
 use("db_incidencias_campus");
+db.createCollection("trainers",{
+    validator: {
+        $jsonSchema: {
+            bsonType: 'object',
+            additionalProperties: false,
+            required: ['nombre','email','corporativo','telefono','celular','telefono_empresarial','celular_empresarial','permisos'],
+            properties: {
+                _id:{
+                    bsonType: 'objectId'
+                },
+                nombre: {
+                    bsonType: 'string',
+                    description: 'El nombre es obligatorio y debe ser string'
+                },
+                email: {
+                    bsonType: 'string',
+                    description: 'El email es obligatorio y debe ser string'
+                },
+                corporativo: {
+                    bsonType: 'string',
+                    description: 'El corporativo es obligatorio y debe ser string'
+                },
+                telefono: {
+                    bsonType: 'int',
+                    description: 'El telefono es obligatorio y debe ser entero'
+                },
+                celular: {
+                    bsonType: 'int',
+                    description: 'El celular es obligatorio y debe ser entero'
+                },
+                telefono_empresarial: {
+                    bsonType: 'int',
+                    description: 'El telefono_empresarial es obligatorio y debe ser entero'
+                },
+                celular_empresarial: {
+                    bsonType: 'int',
+                    description: 'El celular_empresarial es obligatorio y debe ser entero'
+                },
+                permisos: {
+                    bsonType: 'object',
+                    description: 'Ingrese los permisos',
+                    properties: {
+                        "/trainer": {
+                            bsonType: 'array',
+                            items: {
+                                bsonType: 'string',
+                                description: 'Ingrese la version autorizada'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+});
+
+use('db_incidencias_campus');
+db.trainers.insertMany([
+    {
+        nombre: "Miguel",
+        email: "elmigue@gmail.com",
+        corporativo: "backend",
+        telefono: 6142523,
+        celular: 3158973562,
+        telefono_empresarial: 6355050,
+        celular_empresarial: 3128526941,
+        permisos: {'/trainer': ["1.0.0", "1.0.1","2.0.0"]}
+    },
+    {
+        nombre: "Daniel",
+        email: "elDaniel@gmail.com",
+        corporativo: "fronend",
+        telefono: 6953258,
+        celular: 3147586935,
+        telefono_empresarial: 6355050,
+        celular_empresarial: 3128526941,
+        permisos: {'/trainer': ["1.0.0"]}
+    }
+]);
